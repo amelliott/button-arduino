@@ -4,6 +4,7 @@
 struct Button {
     int pin;
     volatile unsigned long lastChange;
+    volatile int state;
     int bounceTime;
     void (*onPress)();
     void (*onRelease)();

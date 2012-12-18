@@ -13,6 +13,7 @@ void ButtonManager::registerButton(int pin, int bounceTime, void (*onPress)(), v
     Button * newButton = &mButtons[mNumButtons];
     newButton->pin = pin;
     newButton->lastChange = 0;
+    newButton->state = LOW;
     newButton->onPress = onPress;
     newButton->onRelease = onRelease;
     ++mNumButtons;
@@ -25,15 +26,14 @@ void ButtonManager::onInterrupt()
     for (int i = 0; i < mNumButtons; ++i)
     {
         Button * button = &mButtons[i];
-        // FIXME: could get a read when the pin is low or high, need to track last state for buttons
-        int value = digitalRead(button->pin);
         // check state change
         unsigned long time = millis();
         if (time - button->lastChange > button->bounceTime)
         {
             button->lastChange = time;
-            if (value == HIGH)
+            if (button->state == HIGH)
             {
+                button->state = LOW;
                 if (button->onRelease != 0)
                 {
                     button->onRelease();
@@ -41,6 +41,7 @@ void ButtonManager::onInterrupt()
             }
             else
             {
+                button->state = HIGH;
                 if (button->onPress != 0)
                 {
                     button->onPress();
