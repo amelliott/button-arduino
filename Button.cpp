@@ -4,7 +4,7 @@
 int ButtonManager::mNumButtons = 0;
 Button ButtonManager::mButtons[NUM_BUTTONS];
 
-void ButtonManager::registerButton(int pin, int bounceTime, void (*onPress)(), void (*onRelease)())
+Button * ButtonManager::registerButton(int pin, int bounceTime, void (*onPress)(), void (*onRelease)())
 {
     pinMode(pin, INPUT);
     digitalWrite(pin, HIGH);
@@ -17,6 +17,7 @@ void ButtonManager::registerButton(int pin, int bounceTime, void (*onPress)(), v
     newButton->onPress = onPress;
     newButton->onRelease = onRelease;
     ++mNumButtons;
+    return newButton;
 }
 
 // pos, turn, oldVal
