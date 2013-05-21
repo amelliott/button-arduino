@@ -12,7 +12,7 @@ Button * ButtonManager::registerButton(int pin, int bounceTime, void (*onPress)(
     
     Button * newButton = &mButtons[mNumButtons];
     newButton->pin = pin;
-    newButton->lastChange = 0;
+    newButton->lastChange = 4294967295;
     newButton->state = LOW;
     newButton->onPress = onPress;
     newButton->onRelease = onRelease;
@@ -24,9 +24,12 @@ Button * ButtonManager::registerButton(int pin, int bounceTime, void (*onPress)(
 void ButtonManager::onInterrupt()
 {
     //Serial.println("onInterrupt");
-    for (int i = 0; i < mNumButtons; ++i)
+    for (short i = 0; i < mNumButtons; ++i)
     {
         Button * button = &mButtons[i];
+        // did this button change?
+        if (button->state == digitalRead(button->pin))
+            continue;
         // check state change
         unsigned long time = millis();
         if (time - button->lastChange > button->bounceTime)

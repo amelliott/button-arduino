@@ -1,5 +1,4 @@
-#define NUM_BUTTONS 1
-#define DEBOUNCE_MS 5
+#define NUM_BUTTONS 2
 
 struct Button {
     int pin;
