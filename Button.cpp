@@ -13,7 +13,7 @@ Button * ButtonManager::registerButton(int pin, int bounceTime, void (*onPress)(
     Button * newButton = &mButtons[mNumButtons];
     newButton->pin = pin;
     newButton->lastChange = 4294967295;
-    newButton->state = LOW;
+    newButton->state = HIGH;
     newButton->onPress = onPress;
     newButton->onRelease = onRelease;
     ++mNumButtons;
