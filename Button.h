@@ -1,4 +1,6 @@
-#define NUM_BUTTONS 2
+#ifndef NUM_BUTTONS
+#define NUM_BUTTONS 3
+#endif
 
 struct Button {
     int pin;
